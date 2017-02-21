@@ -30,7 +30,9 @@ export function getCommonConfig(wco: WebpackConfigOptions) {
   const nodeModules = path.resolve(projectRoot, 'node_modules');
 
   let extraPlugins: any[] = [];
-  let extraRules: any[] = [];
+  let extraRules: any[] = appConfig.loaderRules.map((entry: any) => {
+    return { test: new RegExp(entry.test), loader: entry.loader };
+  }) || [];
   let entryPoints: { [key: string]: string[] } = {};
 
   // figure out which are the lazy loaded entry points
